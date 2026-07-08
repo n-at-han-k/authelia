@@ -1,0 +1,69 @@
+# ================================================================
+# ===== Self-contained production image (web-fork frontend) ======
+# ================================================================
+# Modeled on Dockerfile.dev, but builds the web-fork (shadcn) frontend
+# with a production `pnpm build` and a release Go binary (no dev tag,
+# PIE + hardened CGO flags). Used by .github/workflows/container-image.yml.
+
+# ========================================
+# ===== Build image for the frontend =====
+# ========================================
+FROM node:25-alpine@sha256:bdf2cca6fe3dabd014ea60163eca3f0f7015fbd5c7ee1b0e9ccb4ced6eb02ef4 AS builder-frontend
+
+WORKDIR /node/src/app
+
+COPY --link web-fork ./
+
+# Install the dependencies and build (vite outputs to ../internal/server/public_html).
+RUN \
+	yarn global add pnpm@11 && \
+	pnpm install --frozen-lockfile --ignore-scripts && \
+	pnpm build
+
+# =======================================
+# ===== Build image for the backend =====
+# =======================================
+FROM golang:1.26.5-bookworm@sha256:18aedc16aa19b3fd7ded7245fc14b109e054d65d22ed53c355c899582bbb2113 AS builder-backend
+
+WORKDIR /go/src/app
+
+COPY --link go.mod go.sum ./
+
+RUN \
+	echo ">> Downloading go modules..." && \
+	go mod download
+
+COPY --link / ./
+
+# Prepare static files to be embedded in the Go binary.
+COPY --link --from=builder-frontend /node/src/internal/server/public_html internal/server/public_html
+
+ARG LDFLAGS_EXTRA
+
+RUN \
+	mv api internal/server/public_html/api && \
+	echo ">> Starting go build..." && \
+	CGO_ENABLED=1 CGO_CPPFLAGS="-D_FORTIFY_SOURCE=2 -fstack-protector-strong" CGO_LDFLAGS="-Wl,-z,relro,-z,now" go build \
+	-ldflags "-linkmode=external -s -w ${LDFLAGS_EXTRA}" -trimpath -buildmode=pie -o authelia ./cmd/authelia
+
+# ===================================
+# ===== Authelia official image =====
+# ===================================
+FROM authelia/base:latest@sha256:983dbf601b5a77ad8a5418012774a34abb70b0e3ed3b872a4e2207ce3d25df34
+
+WORKDIR /app
+
+ENV \
+	PATH="/app:${PATH}" \
+	PUID=0 \
+	PGID=0 \
+	X_AUTHELIA_CONFIG="/config/configuration.yml"
+
+COPY --link --from=builder-backend /go/src/app/authelia /go/src/app/LICENSE /go/src/app/entrypoint.sh /go/src/app/healthcheck.sh ./
+
+COPY --link	--from=builder-backend --chmod=666 /go/src/app/.healthcheck.env ./
+
+EXPOSE 9091
+
+ENTRYPOINT ["/app/entrypoint.sh"]
+HEALTHCHECK --interval=30s --timeout=3s --start-period=1m CMD /app/healthcheck.sh
