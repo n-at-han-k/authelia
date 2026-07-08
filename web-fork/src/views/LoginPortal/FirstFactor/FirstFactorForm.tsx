@@ -240,14 +240,8 @@ const FirstFactorForm = function (props: Props) {
             <div className="flex w-full flex-col gap-6 text-left">
                 <Card className="overflow-hidden p-0">
                     <CardContent className="grid p-0 md:grid-cols-2">
-                        <div className="p-6">
+                        <div className="flex items-center p-6">
                             <FieldGroup id="form-login">
-                                <div className="flex flex-col items-center gap-1 text-center">
-                                    <h1 className="text-2xl font-bold">{translate("Welcome back")}</h1>
-                                    <p className="text-balance text-sm text-muted-foreground">
-                                        {translate("Sign in to your account")}
-                                    </p>
-                                </div>
                                 <Field>
                                     <FieldLabel htmlFor="username-textfield">{translate("Username")}</FieldLabel>
                                     <Input
@@ -373,12 +367,8 @@ const FirstFactorForm = function (props: Props) {
                                 ) : null}
                             </FieldGroup>
                         </div>
-                        <div className="relative hidden bg-muted md:block">
-                            <img
-                                src={loginImage}
-                                alt=""
-                                className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-                            />
+                        <div className="relative aspect-[3/4] bg-muted">
+                            <img src={loginImage} alt="" className="absolute inset-0 h-full w-full object-cover" />
                         </div>
                     </CardContent>
                 </Card>
