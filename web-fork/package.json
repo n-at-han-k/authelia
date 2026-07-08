@@ -8,6 +8,7 @@
     "pnpm": "11"
   },
   "dependencies": {
+    "@fontsource-variable/geist-mono": "^5.2.8",
     "@fortawesome/fontawesome-svg-core": "7.3.0",
     "@fortawesome/free-regular-svg-icons": "7.3.0",
     "@fortawesome/free-solid-svg-icons": "7.3.0",

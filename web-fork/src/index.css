@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "@fontsource-variable/geist-mono";
 
 /* Dark variant is driven by the theme bridge. All dark-family Authelia themes (dark, grey, oled)
    activate Tailwind's `dark:` utilities so shadcn's dark-mode styles apply. */
@@ -110,6 +111,8 @@
 }
 
 @theme inline {
+    --font-sans: "Geist Mono Variable", monospace;
+    --font-mono: "Geist Mono Variable", monospace;
     --radius-sm: calc(var(--radius) - 4px);
     --radius-md: calc(var(--radius) - 2px);
     --radius-lg: var(--radius);
@@ -145,9 +148,9 @@
 
 body {
     margin: 0;
-    font-family:
-        -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
-        "Droid Sans", "Helvetica Neue", sans-serif;
+    font-family: "Geist Mono Variable", monospace;
+    background-color: var(--background);
+    color: var(--foreground);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
