@@ -243,7 +243,7 @@ const SecondFactorDialog = function (props: Props) {
                         <li key={label} className="flex items-center gap-2">
                             <span
                                 className={cn(
-                                    "flex size-6 items-center justify-center rounded-full text-xs",
+                                    "flex size-6 items-center justify-center text-xs",
                                     index <= activeStep
                                         ? "bg-primary text-primary-foreground"
                                         : "bg-muted text-muted-foreground",

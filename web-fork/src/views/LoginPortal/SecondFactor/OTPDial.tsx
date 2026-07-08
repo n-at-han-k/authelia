@@ -34,7 +34,7 @@ const OTPDial = function (props: Props) {
                 id="otp-input"
                 className={cn(
                     "mt-4 inline-block",
-                    "[&_input]:mx-1 [&_input]:box-content [&_input]:rounded-[5px] [&_input]:border [&_input]:border-black/30 [&_input]:p-2 [&_input]:text-base",
+                    "[&_input]:mx-1 [&_input]:box-content [&_input]:border [&_input]:border-black/30 [&_input]:p-2 [&_input]:text-base",
                     props.state === State.Failure && "[&_input]:border-[rgba(255,2,2,0.95)]",
                 )}
             >

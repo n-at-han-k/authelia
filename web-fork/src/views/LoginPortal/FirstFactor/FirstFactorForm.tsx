@@ -5,6 +5,7 @@ import { Eye, EyeOff, LoaderCircle } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
+import loginImage from "@assets/images/trump.jpg";
 import { Alert, AlertDescription, AlertTitle } from "@components/ui/alert";
 import { Button } from "@components/ui/button";
 import { Card, CardContent } from "@components/ui/card";
@@ -235,137 +236,153 @@ const FirstFactorForm = function (props: Props) {
     );
 
     return (
-        <LoginLayout id="first-factor-stage" title={translate("Sign in")}>
-            <Card className="overflow-hidden text-left">
-                <CardContent className="p-6 md:p-8">
-                    <FieldGroup id="form-login">
-                        <div className="flex flex-col items-center gap-1 text-center">
-                            <h1 className="text-2xl font-bold">{translate("Welcome back")}</h1>
-                            <p className="text-balance text-sm text-muted-foreground">
-                                {translate("Sign in to your account")}
-                            </p>
+        <LoginLayout id="first-factor-stage" title={translate("Sign in")} maxWidth="md">
+            <div className="flex w-full flex-col gap-6 text-left">
+                <Card className="overflow-hidden p-0">
+                    <CardContent className="grid p-0 md:grid-cols-2">
+                        <div className="p-6">
+                            <FieldGroup id="form-login">
+                                <div className="flex flex-col items-center gap-1 text-center">
+                                    <h1 className="text-2xl font-bold">{translate("Welcome back")}</h1>
+                                    <p className="text-balance text-sm text-muted-foreground">
+                                        {translate("Sign in to your account")}
+                                    </p>
+                                </div>
+                                <Field>
+                                    <FieldLabel htmlFor="username-textfield">{translate("Username")}</FieldLabel>
+                                    <Input
+                                        ref={usernameRef}
+                                        id="username-textfield"
+                                        required
+                                        value={username}
+                                        aria-invalid={usernameError}
+                                        disabled={disabled}
+                                        className="w-full"
+                                        onChange={(v) => setUsername(v.target.value)}
+                                        onFocus={() => setUsernameError(false)}
+                                        autoCapitalize="none"
+                                        autoComplete="username"
+                                        onKeyDown={handleUsernameKeyDown}
+                                    />
+                                </Field>
+                                <Field>
+                                    <div className="flex items-center">
+                                        <FieldLabel htmlFor="password-textfield">{translate("Password")}</FieldLabel>
+                                        {props.resetPassword ? (
+                                            <a
+                                                id="reset-password-button"
+                                                onClick={handleResetPasswordClick}
+                                                className="ml-auto cursor-pointer text-sm underline-offset-2 hover:underline"
+                                            >
+                                                {translate("Reset password?")}
+                                            </a>
+                                        ) : null}
+                                    </div>
+                                    <div className="relative">
+                                        <Input
+                                            ref={passwordRef}
+                                            id="password-textfield"
+                                            required
+                                            className="w-full pr-10"
+                                            disabled={disabled}
+                                            value={password}
+                                            aria-invalid={passwordError}
+                                            onChange={(v) => setPassword(v.target.value)}
+                                            onFocus={() => setPasswordError(false)}
+                                            type={showPassword ? "text" : "password"}
+                                            autoComplete="current-password"
+                                            onKeyDown={handlePasswordKeyDown}
+                                            onKeyUp={handlePasswordKeyUp}
+                                        />
+                                        <button
+                                            type="button"
+                                            aria-label="toggle password visibility"
+                                            className="absolute top-1/2 right-2 -translate-y-1/2 text-muted-foreground"
+                                            onMouseDown={() => setShowPassword(true)}
+                                            onMouseUp={() => setShowPassword(false)}
+                                            onMouseLeave={() => setShowPassword(false)}
+                                            onTouchStart={() => setShowPassword(true)}
+                                            onTouchEnd={() => setShowPassword(false)}
+                                            onTouchCancel={() => setShowPassword(false)}
+                                            onKeyDown={(e) => {
+                                                if (e.key === " ") {
+                                                    setShowPassword(true);
+                                                    e.preventDefault();
+                                                }
+                                            }}
+                                            onKeyUp={(e) => {
+                                                if (e.key === " ") {
+                                                    setShowPassword(false);
+                                                    e.preventDefault();
+                                                }
+                                            }}
+                                        >
+                                            {showPassword ? <Eye className="size-5" /> : <EyeOff className="size-5" />}
+                                        </button>
+                                    </div>
+                                </Field>
+                                {passwordCapsLock ? (
+                                    <Alert>
+                                        <AlertTitle>{translate("Warning")}</AlertTitle>
+                                        <AlertDescription>
+                                            {passwordCapsLockPartial
+                                                ? translate("The password was partially entered with Caps Lock")
+                                                : translate("The password was entered with Caps Lock")}
+                                        </AlertDescription>
+                                    </Alert>
+                                ) : null}
+                                {props.rememberMe ? (
+                                    <Field orientation="horizontal" className="items-center gap-2">
+                                        <Checkbox
+                                            id="remember-checkbox"
+                                            disabled={disabled}
+                                            checked={rememberMe}
+                                            onCheckedChange={handleRememberMeChange}
+                                            onKeyDown={handleRememberMeKeyDown}
+                                            value="rememberMe"
+                                        />
+                                        <FieldLabel htmlFor="remember-checkbox" className="font-normal">
+                                            {translate("Remember me")}
+                                        </FieldLabel>
+                                    </Field>
+                                ) : null}
+                                <Field>
+                                    <Button
+                                        id="sign-in-button"
+                                        className="w-full"
+                                        disabled={disabled}
+                                        onClick={handleSignIn}
+                                    >
+                                        {translate("Sign in")}
+                                        {loading ? <LoaderCircle className="size-5 animate-spin" /> : null}
+                                    </Button>
+                                </Field>
+                                {props.passkeyLogin ? (
+                                    <PasskeyForm
+                                        disabled={props.disabled}
+                                        rememberMe={props.rememberMe}
+                                        onAuthenticationError={(err) => createErrorNotification(err.message)}
+                                        onAuthenticationStart={() => {
+                                            setUsername("");
+                                            setPassword("");
+                                            props.onAuthenticationStart();
+                                        }}
+                                        onAuthenticationStop={props.onAuthenticationStop}
+                                        onAuthenticationSuccess={props.onAuthenticationSuccess}
+                                    />
+                                ) : null}
+                            </FieldGroup>
                         </div>
-                        <Field>
-                            <FieldLabel htmlFor="username-textfield">{translate("Username")}</FieldLabel>
-                            <Input
-                                ref={usernameRef}
-                                id="username-textfield"
-                                required
-                                value={username}
-                                aria-invalid={usernameError}
-                                disabled={disabled}
-                                className="w-full"
-                                onChange={(v) => setUsername(v.target.value)}
-                                onFocus={() => setUsernameError(false)}
-                                autoCapitalize="none"
-                                autoComplete="username"
-                                onKeyDown={handleUsernameKeyDown}
+                        <div className="relative hidden bg-muted md:block">
+                            <img
+                                src={loginImage}
+                                alt=""
+                                className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
                             />
-                        </Field>
-                        <Field>
-                            <FieldLabel htmlFor="password-textfield">{translate("Password")}</FieldLabel>
-                            <div className="relative">
-                                <Input
-                                    ref={passwordRef}
-                                    id="password-textfield"
-                                    required
-                                    className="w-full pr-10"
-                                    disabled={disabled}
-                                    value={password}
-                                    aria-invalid={passwordError}
-                                    onChange={(v) => setPassword(v.target.value)}
-                                    onFocus={() => setPasswordError(false)}
-                                    type={showPassword ? "text" : "password"}
-                                    autoComplete="current-password"
-                                    onKeyDown={handlePasswordKeyDown}
-                                    onKeyUp={handlePasswordKeyUp}
-                                />
-                                <button
-                                    type="button"
-                                    aria-label="toggle password visibility"
-                                    className="absolute top-1/2 right-2 -translate-y-1/2 text-muted-foreground"
-                                    onMouseDown={() => setShowPassword(true)}
-                                    onMouseUp={() => setShowPassword(false)}
-                                    onMouseLeave={() => setShowPassword(false)}
-                                    onTouchStart={() => setShowPassword(true)}
-                                    onTouchEnd={() => setShowPassword(false)}
-                                    onTouchCancel={() => setShowPassword(false)}
-                                    onKeyDown={(e) => {
-                                        if (e.key === " ") {
-                                            setShowPassword(true);
-                                            e.preventDefault();
-                                        }
-                                    }}
-                                    onKeyUp={(e) => {
-                                        if (e.key === " ") {
-                                            setShowPassword(false);
-                                            e.preventDefault();
-                                        }
-                                    }}
-                                >
-                                    {showPassword ? <Eye className="size-5" /> : <EyeOff className="size-5" />}
-                                </button>
-                            </div>
-                        </Field>
-                        {passwordCapsLock ? (
-                            <Alert>
-                                <AlertTitle>{translate("Warning")}</AlertTitle>
-                                <AlertDescription>
-                                    {passwordCapsLockPartial
-                                        ? translate("The password was partially entered with Caps Lock")
-                                        : translate("The password was entered with Caps Lock")}
-                                </AlertDescription>
-                            </Alert>
-                        ) : null}
-                        {props.rememberMe ? (
-                            <Field orientation="horizontal" className="items-center gap-2">
-                                <Checkbox
-                                    id="remember-checkbox"
-                                    disabled={disabled}
-                                    checked={rememberMe}
-                                    onCheckedChange={handleRememberMeChange}
-                                    onKeyDown={handleRememberMeKeyDown}
-                                    value="rememberMe"
-                                />
-                                <FieldLabel htmlFor="remember-checkbox" className="font-normal">
-                                    {translate("Remember me")}
-                                </FieldLabel>
-                            </Field>
-                        ) : null}
-                        <Field>
-                            <Button id="sign-in-button" className="w-full" disabled={disabled} onClick={handleSignIn}>
-                                {translate("Sign in")}
-                                {loading ? <LoaderCircle className="size-5 animate-spin" /> : null}
-                            </Button>
-                        </Field>
-                        {props.passkeyLogin ? (
-                            <PasskeyForm
-                                disabled={props.disabled}
-                                rememberMe={props.rememberMe}
-                                onAuthenticationError={(err) => createErrorNotification(err.message)}
-                                onAuthenticationStart={() => {
-                                    setUsername("");
-                                    setPassword("");
-                                    props.onAuthenticationStart();
-                                }}
-                                onAuthenticationStop={props.onAuthenticationStop}
-                                onAuthenticationSuccess={props.onAuthenticationSuccess}
-                            />
-                        ) : null}
-                        {props.resetPassword ? (
-                            <div className="flex justify-end">
-                                <a
-                                    id="reset-password-button"
-                                    onClick={handleResetPasswordClick}
-                                    className="cursor-pointer text-sm text-primary hover:underline"
-                                >
-                                    {translate("Reset password?")}
-                                </a>
-                            </div>
-                        ) : null}
-                    </FieldGroup>
-                </CardContent>
-            </Card>
+                        </div>
+                    </CardContent>
+                </Card>
+            </div>
         </LoginLayout>
     );
 };

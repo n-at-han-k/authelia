@@ -196,15 +196,15 @@ const SecurityView = function () {
             />
 
             <div className="mx-auto flex h-screen w-full max-w-[600px] items-start justify-center px-4 pt-16">
-                <div className="flex h-auto items-center justify-center rounded-lg border bg-card text-card-foreground shadow-sm">
+                <div className="flex h-auto items-center justify-center border bg-card text-card-foreground shadow-sm">
                     <div className="m-4 flex w-full flex-col gap-4">
                         <div className="p-2 md:p-6">
-                            <div className="mb-2 w-full rounded border border-gray-500 p-[10px]">
+                            <div className="mb-2 w-full border border-gray-500 p-[10px]">
                                 <p>
                                     {translate("Name")}: {userInfo?.display_name || ""}
                                 </p>
                             </div>
-                            <div className="mb-2 w-full rounded border border-gray-500 p-[10px]">
+                            <div className="mb-2 w-full border border-gray-500 p-[10px]">
                                 <div className="flex items-center">
                                     <p className="mr-2">{translate("Email")}:</p>
                                     <p>{userInfo?.emails?.[0] || ""}</p>
@@ -219,7 +219,7 @@ const SecurityView = function () {
                                     </ul>
                                 )}
                             </div>
-                            <div className="mb-2 rounded border border-gray-500 p-[10px]">
+                            <div className="mb-2 border border-gray-500 p-[10px]">
                                 <p>{translate("Password")}: ●●●●●●●●</p>
                             </div>
                             <PasswordChangeButton

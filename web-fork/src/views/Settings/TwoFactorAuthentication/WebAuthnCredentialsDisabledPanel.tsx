@@ -4,7 +4,7 @@ const WebAuthnCredentialsDisabledPanel = function () {
     const { t: translate } = useTranslation("settings");
 
     return (
-        <div className="rounded-lg border bg-card text-card-foreground shadow-sm">
+        <div className="border bg-card text-card-foreground shadow-sm">
             <div className="flex flex-col gap-4 p-4">
                 <div className="w-full">
                     <h5 className="text-xl">{translate("WebAuthn Credentials")}</h5>

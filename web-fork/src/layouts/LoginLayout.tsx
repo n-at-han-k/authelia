@@ -4,13 +4,20 @@ import { useTranslation } from "react-i18next";
 
 import AppBarLoginPortal from "@components/AppBarLoginPortal";
 import Brand from "@components/Brand";
+import { DotGridSpotlight } from "@components/DotGridSpotlight";
 import PrivacyPolicyDrawer from "@components/PrivacyPolicyDrawer";
 import { EncodedName } from "@constants/constants";
 import { useLanguageContext } from "@contexts/LanguageContext";
+import { useResolvedDark } from "@hooks/ResolvedTheme";
 import { Language } from "@models/LocaleInformation";
 import { UserInfo } from "@models/UserInfo";
 import { getLocaleInformation } from "@services/LocaleInformation";
 import { cn } from "@utils/cn";
+
+const DotColor = {
+    dark: { active: "rgba(255, 255, 255, 0.12)", default: "rgba(255, 255, 255, 0.06)" },
+    light: { active: "rgba(0, 0, 0, 0.16)", default: "rgba(0, 0, 0, 0.08)" },
+} as const;
 
 export type MaxWidth = "lg" | "md" | "sm" | "xl" | "xs" | false;
 
@@ -67,8 +74,14 @@ const LoginLayout = function (props: Props) {
 
     const width = props.maxWidth === false ? "" : maxWidthClass[props.maxWidth ?? "xs"];
 
+    const dark = useResolvedDark();
+    const dots = dark ? DotColor.dark : DotColor.light;
+
     return (
         <div>
+            <div className="fixed inset-0 -z-10 overflow-hidden">
+                <DotGridSpotlight dotColor={dots.default} activeDotColor={dots.active} />
+            </div>
             <AppBarLoginPortal
                 userInfo={props.userInfo}
                 onLocaleChange={handleChangeLanguage}

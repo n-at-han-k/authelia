@@ -38,7 +38,7 @@ const AppBarItemAccountSettings = function (props: Props) {
                         <button
                             id="account-menu"
                             aria-label={translate("Account Settings")}
-                            className="ml-2 flex size-8 items-center justify-center rounded-full bg-muted text-sm text-muted-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                            className="ml-2 flex size-8 items-center justify-center bg-muted text-sm text-muted-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring"
                         >
                             {props.userInfo.display_name.charAt(0).toUpperCase()}
                         </button>

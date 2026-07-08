@@ -315,7 +315,7 @@ const DecisionFormView: FC<Props> = (props: Props) => {
                                     </p>
                                 </div>
 
-                                <div className="rounded-lg border px-2 py-1">
+                                <div className="border px-2 py-1">
                                     <DecisionFormScopes scopes={response.scopes} />
                                     <DecisionFormClaims
                                         claims={claims}

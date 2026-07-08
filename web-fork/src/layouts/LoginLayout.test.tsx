@@ -18,6 +18,14 @@ vi.mock("@components/Brand", () => ({
     default: () => <div data-testid="brand" />,
 }));
 
+vi.mock("@components/DotGridSpotlight", () => ({
+    DotGridSpotlight: () => <div data-testid="dot-grid" />,
+}));
+
+vi.mock("@hooks/ResolvedTheme", () => ({
+    useResolvedDark: () => false,
+}));
+
 vi.mock("@components/PrivacyPolicyDrawer", () => ({
     default: () => <div data-testid="privacy-policy" />,
 }));

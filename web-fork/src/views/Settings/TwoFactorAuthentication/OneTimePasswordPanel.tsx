@@ -213,7 +213,7 @@ const OneTimePasswordPanel = function (props: Props) {
                     props.handleRefreshState();
                 }}
             />
-            <Card className="gap-0 rounded-none border bg-transparent py-0 shadow-none">
+            <Card className="gap-0 border bg-transparent py-0 shadow-none">
                 <div className="flex flex-col gap-4 p-4">
                     <div className="w-full">
                         <h5 className="text-xl">{translate("One-Time Password")}</h5>

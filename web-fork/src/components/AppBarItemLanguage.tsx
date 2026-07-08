@@ -22,7 +22,7 @@ const Fallbacks: { [id: string]: string } = {
 };
 
 const rowClass =
-    "flex w-full cursor-pointer items-center justify-between gap-2 rounded-sm px-2 py-1.5 text-left text-sm outline-none hover:bg-accent hover:text-accent-foreground focus-visible:bg-accent";
+    "flex w-full cursor-pointer items-center justify-between gap-2 px-2 py-1.5 text-left text-sm outline-none hover:bg-accent hover:text-accent-foreground focus-visible:bg-accent";
 
 const AppBarItemLanguage = function (props: Props) {
     const { t: translate } = useTranslation();
@@ -131,7 +131,7 @@ const AppBarItemLanguage = function (props: Props) {
                         <button
                             id="language-button"
                             aria-label={translate("Language")}
-                            className="ml-2 flex items-center gap-1 rounded-md px-2 py-1 outline-none hover:bg-accent focus-visible:ring-2 focus-visible:ring-ring"
+                            className="ml-2 flex items-center gap-1 px-2 py-1 outline-none hover:bg-accent focus-visible:ring-2 focus-visible:ring-ring"
                         >
                             <Languages />
                             <span>{current?.display}</span>

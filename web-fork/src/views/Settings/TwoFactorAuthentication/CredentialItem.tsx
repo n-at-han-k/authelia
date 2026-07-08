@@ -32,7 +32,7 @@ const CredentialItem = function (props: Props) {
     const tooltipInformation = props.problem ? props.tooltipInformationProblem : props.tooltipInformation;
 
     return (
-        <div id={props.id} className="rounded-lg border bg-card text-card-foreground shadow-sm">
+        <div id={props.id} className="border bg-card text-card-foreground shadow-sm">
             <div className="p-6">
                 <div className="flex h-full w-full flex-wrap items-center">
                     <div className="mr-1 flex w-2/12 flex-wrap sm:w-1/12 md:mr-4 xl:mr-6">{props.icon}</div>

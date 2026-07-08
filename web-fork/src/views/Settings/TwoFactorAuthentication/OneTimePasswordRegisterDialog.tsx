@@ -519,7 +519,7 @@ const OneTimePasswordRegisterDialog = function (props: Props) {
                             <div key={label} className="flex items-center gap-2">
                                 <span
                                     className={cn(
-                                        "flex size-8 items-center justify-center rounded-full border text-sm",
+                                        "flex size-8 items-center justify-center border text-sm",
                                         index === activeStep
                                             ? "border-primary bg-primary text-primary-foreground"
                                             : "border-input text-muted-foreground",

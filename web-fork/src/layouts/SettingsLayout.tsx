@@ -51,7 +51,7 @@ const SettingsLayout = function (props: Props) {
                         id={"settings-menu"}
                         aria-label={"open drawer"}
                         onClick={handleToggleDrawer}
-                        className="mr-2 flex size-9 items-center justify-center rounded-md outline-none hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-ring"
+                        className="mr-2 flex size-9 items-center justify-center outline-none hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-ring"
                     >
                         <Menu />
                     </button>

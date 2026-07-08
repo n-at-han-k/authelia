@@ -57,7 +57,7 @@ const SettingsView = function () {
             <div className="container max-w-5xl tracking-tight">
                 <div className="flex flex-col gap-3 border-b pb-8">
                     <h3 className="text-2xl font-semibold">{translate("Your Profile")}</h3>
-                    <div className="flex w-full items-center gap-2 rounded-lg bg-muted px-4 py-3 text-sm font-medium text-muted-foreground">
+                    <div className="flex w-full items-center gap-2 bg-muted px-4 py-3 text-sm font-medium text-muted-foreground">
                         <Info className="size-3.5 shrink-0" />
                         {translate("Manage your account details and sign-in methods.")}
                     </div>
@@ -65,7 +65,7 @@ const SettingsView = function () {
 
                 <div className="mt-10 flex flex-col items-start gap-8 sm:mt-0 sm:flex-row">
                     <div className="flex flex-col items-start gap-4 sm:py-10">
-                        <div className="flex size-30 items-center justify-center rounded-full bg-muted text-2xl font-semibold text-muted-foreground">
+                        <div className="flex size-30 items-center justify-center bg-muted text-2xl font-semibold text-muted-foreground">
                             {getInitials(displayName)}
                         </div>
 
@@ -119,7 +119,7 @@ const SettingsView = function () {
                                     {factors.map((factor) => (
                                         <div
                                             key={factor.label}
-                                            className="flex items-center justify-between rounded-md border px-3 py-2 text-sm"
+                                            className="flex items-center justify-between border px-3 py-2 text-sm"
                                         >
                                             <span className="flex items-center gap-2">
                                                 {factor.icon}
