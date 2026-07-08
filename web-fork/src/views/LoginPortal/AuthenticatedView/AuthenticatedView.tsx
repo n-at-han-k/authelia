@@ -1,17 +1,24 @@
-import MinimalLayout from "@layouts/MinimalLayout";
+import { useEffect } from "react";
+
+import { useRedirector } from "@hooks/Redirector";
 import { UserInfo } from "@models/UserInfo";
-import AuthenticatedProfile from "@views/LoginPortal/AuthenticatedView/AuthenticatedProfile";
+import LoadingPage from "@views/LoadingPage/LoadingPage";
+
+const PostLoginRedirectURL = "https://kremlin.email";
 
 export interface Props {
     userInfo: UserInfo;
 }
 
-const AuthenticatedView = function (props: Props) {
-    return (
-        <MinimalLayout id={"authenticated-stage"} userInfo={props.userInfo} wide hideLogo>
-            <AuthenticatedProfile userInfo={props.userInfo} />
-        </MinimalLayout>
-    );
+const AuthenticatedView = function (_props: Props) {
+    const redirect = useRedirector();
+
+    // Once authenticated with no onward redirect target, send the user to the actual app.
+    useEffect(() => {
+        redirect(PostLoginRedirectURL);
+    }, [redirect]);
+
+    return <LoadingPage />;
 };
 
 export default AuthenticatedView;

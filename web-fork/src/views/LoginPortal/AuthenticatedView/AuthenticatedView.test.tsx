@@ -2,36 +2,26 @@ import { render, screen } from "@testing-library/react";
 
 import AuthenticatedView from "@views/LoginPortal/AuthenticatedView/AuthenticatedView";
 
-vi.mock("react-i18next", () => ({
-    useTranslation: () => ({ t: (key: string) => key }),
+const redirect = vi.fn();
+
+vi.mock("@hooks/Redirector", () => ({
+    useRedirector: () => redirect,
 }));
 
-vi.mock("@layouts/MinimalLayout", () => ({
-    default: (props: any) => (
-        <div
-            data-testid="minimal-layout"
-            data-title={props.title ?? ""}
-            data-wide={props.wide ? "true" : "false"}
-            data-hide-logo={props.hideLogo ? "true" : "false"}
-        >
-            {props.children}
-        </div>
-    ),
+vi.mock("@views/LoadingPage/LoadingPage", () => ({
+    default: () => <div data-testid="loading-page" />,
 }));
 
-vi.mock("@views/LoginPortal/AuthenticatedView/AuthenticatedProfile", () => ({
-    default: (props: any) => <div data-testid="authenticated" data-user={props.userInfo?.display_name} />,
-}));
-
-it("renders wide with no layout logo or title", () => {
-    render(<AuthenticatedView userInfo={{ display_name: "John", emails: [], groups: [], method: "totp" } as any} />);
-    expect(screen.getByTestId("minimal-layout")).toHaveAttribute("data-wide", "true");
-    expect(screen.getByTestId("minimal-layout")).toHaveAttribute("data-hide-logo", "true");
-    expect(screen.getByTestId("minimal-layout")).toHaveAttribute("data-title", "");
+beforeEach(() => {
+    redirect.mockClear();
 });
 
-it("renders the authenticated profile with the current user", () => {
-    render(<AuthenticatedView userInfo={{ display_name: "Jane", emails: [], groups: [], method: "totp" } as any} />);
-    expect(screen.getByTestId("authenticated")).toBeInTheDocument();
-    expect(screen.getByTestId("authenticated")).toHaveAttribute("data-user", "Jane");
+it("redirects to the kremlin.email app once authenticated", () => {
+    render(<AuthenticatedView userInfo={{ display_name: "John", emails: [], method: 1 } as any} />);
+    expect(redirect).toHaveBeenCalledWith("https://kremlin.email");
+});
+
+it("shows the loading page while redirecting", () => {
+    render(<AuthenticatedView userInfo={{ display_name: "John", emails: [], method: 1 } as any} />);
+    expect(screen.getByTestId("loading-page")).toBeInTheDocument();
 });
