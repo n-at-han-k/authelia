@@ -35,14 +35,14 @@ const DecisionFormClaims: FC<Props> = ({ claims, essential_claims, onChangeCheck
         [checked],
     );
 
-    const hasClaims = essential_claims || claims;
+    const hasClaims = Boolean(essential_claims?.length) || Boolean(claims?.length);
 
     return (
         <Fragment>
             {hasClaims ? (
                 <div className="w-full">
                     <div className="text-center">
-                        <ul className="my-4 inline-block bg-background text-left">
+                        <ul className="my-4 inline-block text-left">
                             {essential_claims?.map((claim: string) => (
                                 <li key={`${claim}-essential`}>
                                     <Tooltip>

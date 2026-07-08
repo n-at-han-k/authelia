@@ -16,7 +16,7 @@ const DecisionFormScopes: FC<Props> = (props: Props) => {
     return (
         <div className="w-full">
             <div className="text-center">
-                <ul className="my-4 inline-block bg-background text-left">
+                <ul className="my-4 inline-block text-left">
                     {props.scopes.map((scope: string) => (
                         <Tooltip key={scope}>
                             <TooltipTrigger asChild>
