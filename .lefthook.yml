@@ -32,7 +32,7 @@ pre-commit:
         jobs:
           - name: eslint
             run: pnpm -s lint && echo "0 issues."
-            root: "web/"
+            root: "web-fork/"
             glob: "*.{js,jsx,ts,tsx}"
             stage_fixed: true
 
@@ -74,5 +74,5 @@ commit-msg:
   jobs:
     - name: commitlint
       run: pnpm commitlint --edit
-      root: "web/"
+      root: "web-fork/"
 ...

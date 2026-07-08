@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+#
+# web-commits-since — list git commits touching the ./web folder since a given commit.
+#
+# Usage:
+#   bin/web-commits-since <commit-ish> [-- <extra git log args>]
+#
+# Examples:
+#   bin/web-commits-since v4.38.0
+#   bin/web-commits-since HEAD~50
+#   bin/web-commits-since 1b35bba38 -- --oneline
+#
+# The <commit-ish> is exclusive: commits reachable from HEAD but not from
+# <commit-ish> that modified files under ./web are shown (i.e. <commit-ish>..HEAD).
+
+set -euo pipefail
+
+usage() {
+	cat >&2 <<'EOF'
+Usage: web-commits-since <commit-ish> [-- <extra git log args>]
+
+Lists commits that modified the ./web folder in the range <commit-ish>..HEAD.
+
+Options:
+  -h, --help    Show this help.
+
+Examples:
+  web-commits-since v4.38.0
+  web-commits-since HEAD~50 -- --oneline
+EOF
+}
+
+if [[ $# -eq 0 ]]; then
+	usage
+	exit 2
+fi
+
+case "$1" in
+	-h|--help)
+		usage
+		exit 0
+		;;
+esac
+
+FROM="$1"
+shift
+
+# Any args after a literal `--` are passed straight through to git log.
+GIT_ARGS=()
+if [[ $# -gt 0 ]]; then
+	if [[ "$1" == "--" ]]; then
+		shift
+	fi
+	GIT_ARGS=("$@")
+fi
+
+# Resolve the repository root so the ./web pathspec works from any CWD.
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+
+if ! git rev-parse --verify --quiet "${FROM}^{commit}" >/dev/null; then
+	echo "error: '${FROM}' is not a valid commit" >&2
+	exit 1
+fi
+
+# Default to a readable format when the caller supplied no git log options.
+if [[ ${#GIT_ARGS[@]} -eq 0 ]]; then
+	GIT_ARGS=(--pretty=format:'%h %ad %an %s' --date=short)
+fi
+
+git -C "${REPO_ROOT}" log "${GIT_ARGS[@]}" "${FROM}..HEAD" -- web

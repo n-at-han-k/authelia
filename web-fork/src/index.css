@@ -1,0 +1,165 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* Dark variant is driven by the theme bridge. All dark-family Authelia themes (dark, grey, oled)
+   activate Tailwind's `dark:` utilities so shadcn's dark-mode styles apply. */
+@custom-variant dark (&:where(.dark, [data-theme="dark"], [data-theme="grey"], [data-theme="oled"]) *);
+
+/* The four Authelia themes, mapped from src/themes/{Light,Dark,Grey,Oled}.ts (MUI palettes).
+   `data-theme` is set on <html> by ThemeContext (auto resolves to light/dark). :root == light so
+   there is a sane fallback before the attribute is applied. */
+:root,
+[data-theme="light"] {
+    --radius: 0.5rem;
+    --background: #ffffff;
+    --foreground: rgba(0, 0, 0, 0.87);
+    --card: #ffffff;
+    --card-foreground: rgba(0, 0, 0, 0.87);
+    --popover: #ffffff;
+    --popover-foreground: rgba(0, 0, 0, 0.87);
+    --primary: #1976d2;
+    --primary-foreground: #ffffff;
+    --secondary: #f50057;
+    --secondary-foreground: #ffffff;
+    --muted: #f5f5f5;
+    --muted-foreground: rgba(0, 0, 0, 0.54);
+    --accent: #eeeeee;
+    --accent-foreground: rgba(0, 0, 0, 0.87);
+    --destructive: #f44336;
+    --destructive-foreground: #ffffff;
+    --border: rgba(0, 0, 0, 0.12);
+    --input: rgba(0, 0, 0, 0.12);
+    --ring: #1976d2;
+    /* Authelia custom tokens (MUI theme.custom) */
+    --icon: #000000;
+    --loading-bar: #000000;
+}
+
+[data-theme="dark"] {
+    --background: #303030;
+    --foreground: #ffffff;
+    --card: #424242;
+    --card-foreground: #ffffff;
+    --popover: #424242;
+    --popover-foreground: #ffffff;
+    --primary: #1976d2;
+    --primary-foreground: #ffffff;
+    --secondary: #f50057;
+    --secondary-foreground: #ffffff;
+    --muted: #424242;
+    --muted-foreground: rgba(255, 255, 255, 0.7);
+    --accent: #616161;
+    --accent-foreground: #ffffff;
+    --destructive: #f44336;
+    --destructive-foreground: #ffffff;
+    --border: rgba(255, 255, 255, 0.12);
+    --input: rgba(255, 255, 255, 0.12);
+    --ring: #1976d2;
+    --icon: #ffffff;
+    --loading-bar: #ffffff;
+}
+
+[data-theme="grey"] {
+    --background: #2f343e;
+    --foreground: #929aa5;
+    --card: #2f343e;
+    --card-foreground: #929aa5;
+    --popover: #2f343e;
+    --popover-foreground: #929aa5;
+    --primary: #929aa5;
+    --primary-foreground: #2f343e;
+    --secondary: #f50057;
+    --secondary-foreground: #ffffff;
+    --muted: #3a404c;
+    --muted-foreground: rgba(146, 154, 165, 0.7);
+    --accent: #3a404c;
+    --accent-foreground: #929aa5;
+    --destructive: #f44336;
+    --destructive-foreground: #ffffff;
+    --border: rgba(146, 154, 165, 0.3);
+    --input: rgba(146, 154, 165, 0.3);
+    --ring: #929aa5;
+    --icon: #929aa5;
+    --loading-bar: #929aa5;
+}
+
+[data-theme="oled"] {
+    --background: #000000;
+    --foreground: #ffffff;
+    --card: #000000;
+    --card-foreground: #ffffff;
+    --popover: #000000;
+    --popover-foreground: #ffffff;
+    --primary: #1976d2;
+    --primary-foreground: #ffffff;
+    --secondary: #f50057;
+    --secondary-foreground: #ffffff;
+    --muted: #212121;
+    --muted-foreground: rgba(255, 255, 255, 0.7);
+    --accent: #212121;
+    --accent-foreground: #ffffff;
+    --destructive: #f44336;
+    --destructive-foreground: #ffffff;
+    --border: rgba(255, 255, 255, 0.12);
+    --input: rgba(255, 255, 255, 0.12);
+    --ring: #1976d2;
+    --icon: #ffffff;
+    --loading-bar: #ffffff;
+}
+
+@theme inline {
+    --radius-sm: calc(var(--radius) - 4px);
+    --radius-md: calc(var(--radius) - 2px);
+    --radius-lg: var(--radius);
+    --radius-xl: calc(var(--radius) + 4px);
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+    --color-icon: var(--icon);
+    --color-loading-bar: var(--loading-bar);
+}
+
+@layer base {
+    * {
+        border-color: var(--border);
+    }
+}
+
+body {
+    margin: 0;
+    font-family:
+        -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+        "Droid Sans", "Helvetica Neue", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.hidden {
+    display: none;
+}

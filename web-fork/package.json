@@ -1,0 +1,103 @@
+{
+  "name": "authelia",
+  "version": "4.39.20",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.13.1",
+    "pnpm": "11"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "7.3.0",
+    "@fortawesome/free-regular-svg-icons": "7.3.0",
+    "@fortawesome/free-solid-svg-icons": "7.3.0",
+    "@fortawesome/react-fontawesome": "3.3.1",
+    "@simplewebauthn/browser": "13.3.0",
+    "@tailwindcss/vite": "^4.3.2",
+    "axios": "1.18.1",
+    "broadcast-channel": "7.3.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "2.1.1",
+    "i18next": "26.3.4",
+    "i18next-browser-languagedetector": "8.2.1",
+    "i18next-http-backend": "4.0.0",
+    "input-otp": "^1.4.2",
+    "lucide-react": "^1.23.0",
+    "qrcode.react": "4.2.0",
+    "radix-ui": "^1.6.2",
+    "react": "19.2.7",
+    "react-dom": "19.2.7",
+    "react-i18next": "17.0.8",
+    "react-router-dom": "7.18.1",
+    "react-spinners": "0.17.0",
+    "react18-input-otp": "1.1.4",
+    "tailwind-merge": "^3.6.0",
+    "tailwindcss": "^4.3.2",
+    "tw-animate-css": "^1.4.0",
+    "zxcvbn": "4.4.2"
+  },
+  "scripts": {
+    "prepare": "lefthook install",
+    "start": "vite --host",
+    "build": "vite build",
+    "coverage": "VITE_COVERAGE=true vite build",
+    "lint": "eslint --format visualstudio --ext .js,.jsx,.ts,.tsx --fix .",
+    "test": "vitest run --coverage",
+    "test:watch": "vitest --coverage --ui",
+    "test:preview": "vitest-preview",
+    "report": "nyc report -r clover -r json -r lcov -r text"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all",
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@commitlint/cli": "21.2.0",
+    "@commitlint/config-conventional": "21.2.0",
+    "@eslint-react/eslint-plugin": "5.11.3",
+    "@limegrass/eslint-plugin-import-alias": "1.6.1",
+    "@testing-library/jest-dom": "6.9.1",
+    "@testing-library/react": "16.3.2",
+    "@types/node": "25.9.4",
+    "@types/react": "19.2.17",
+    "@types/react-dom": "19.2.3",
+    "@types/zxcvbn": "4.4.5",
+    "@typescript-eslint/eslint-plugin": "8.63.0",
+    "@typescript-eslint/parser": "8.63.0",
+    "@vitejs/plugin-react": "6.0.3",
+    "@vitest/coverage-istanbul": "4.1.9",
+    "@vitest/ui": "4.1.9",
+    "eslint": "10.6.0",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-formatter-rdjson": "1.0.6",
+    "eslint-formatter-visualstudio": "9.0.1",
+    "eslint-import-resolver-typescript": "4.4.5",
+    "eslint-plugin-import": "2.32.0",
+    "eslint-plugin-perfectionist": "5.10.0",
+    "eslint-plugin-prettier": "5.5.6",
+    "happy-dom": "20.10.6",
+    "lefthook": "2.1.9",
+    "prettier": "3.9.4",
+    "typescript": "6.0.3",
+    "vite": "8.1.3",
+    "vite-plugin-checker": "0.14.4",
+    "vite-plugin-istanbul": "9.0.1",
+    "vite-plugin-svgr": "5.2.0",
+    "vitest": "4.1.9",
+    "vitest-preview": "0.0.3"
+  }
+}

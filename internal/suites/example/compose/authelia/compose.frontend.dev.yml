@@ -12,7 +12,7 @@ services:
     stdin_open: true
     volumes:
       - './example/compose/authelia/resources/:/resources'
-      - '../../web:/app'
+      - '../../web-fork:/app'
       - '~/.local/share/pnpm/store:/app/.pnpm-store'
     labels:
       traefik.enable: 'true'

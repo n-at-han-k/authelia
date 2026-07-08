@@ -75,4 +75,7 @@ extend-exclude = [
     "internal/suites/example/compose/haproxy/",
     "internal/suites/example/compose/ldap/",
     "internal/suites/example/kube/ldap/",
+    # web-fork build output (minified) and dependencies
+    "web-fork/html/",
+    "web-fork/node_modules/",
 ]
