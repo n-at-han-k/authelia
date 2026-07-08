@@ -197,6 +197,7 @@ const LoginPortal = function (props: Props) {
                             rememberMe={props.rememberMe}
                             resetPassword={props.resetPassword}
                             resetPasswordCustomURL={props.resetPasswordCustomURL}
+                            defaultRedirectionURL={state?.default_redirection_url}
                             onAuthenticationStart={() => setFirstFactorDisabled(true)}
                             onAuthenticationStop={() => setFirstFactorDisabled(false)}
                             onAuthenticationSuccess={handleAuthSuccess}

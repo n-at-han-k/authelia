@@ -10,7 +10,7 @@ import { Alert, AlertDescription, AlertTitle } from "@components/ui/alert";
 import { Button } from "@components/ui/button";
 import { Card, CardContent } from "@components/ui/card";
 import { Checkbox } from "@components/ui/checkbox";
-import { Field, FieldGroup, FieldLabel } from "@components/ui/field";
+import { Field, FieldDescription, FieldGroup, FieldLabel } from "@components/ui/field";
 import { Input } from "@components/ui/input";
 import { ResetPasswordStep1Route } from "@constants/Routes";
 import { RedirectionURL, RequestMethod } from "@constants/SearchParams";
@@ -29,6 +29,7 @@ export interface Props {
     rememberMe: boolean;
     resetPassword: boolean;
     resetPasswordCustomURL: string;
+    defaultRedirectionURL?: string;
 
     onAuthenticationStart: () => void;
     onAuthenticationStop: () => void;
@@ -93,6 +94,10 @@ const FirstFactorForm = function (props: Props) {
     }, [loginChannel, redirectionURL, props]);
 
     const disabled = props.disabled;
+
+    const homeURL = props.defaultRedirectionURL?.replace(/\/+$/, "");
+    const termsURL = homeURL ? `${homeURL}/policies/terms` : "#";
+    const privacyURL = homeURL ? `${homeURL}/policies/privacy` : "#";
 
     const handleRememberMeChange = (checked: boolean) => {
         setRememberMe(checked === true);
@@ -372,6 +377,11 @@ const FirstFactorForm = function (props: Props) {
                         </div>
                     </CardContent>
                 </Card>
+                <FieldDescription className="px-6 text-center">
+                    {translate("By clicking continue, you agree to our")}{" "}
+                    <a href={termsURL}>{translate("Terms of Service")}</a> {translate("and")}{" "}
+                    <a href={privacyURL}>{translate("Privacy Policy")}</a>.
+                </FieldDescription>
             </div>
         </LoginLayout>
     );
