@@ -2,18 +2,15 @@ import { ReactNode, useCallback, useEffect, useState } from "react";
 
 import { useTranslation } from "react-i18next";
 
-import UserSvg from "@assets/images/user.svg?react";
 import AppBarLoginPortal from "@components/AppBarLoginPortal";
 import Brand from "@components/Brand";
 import PrivacyPolicyDrawer from "@components/PrivacyPolicyDrawer";
-import TypographyWithTooltip from "@components/TypographyWithTooltip";
 import { EncodedName } from "@constants/constants";
 import { useLanguageContext } from "@contexts/LanguageContext";
 import { Language } from "@models/LocaleInformation";
 import { UserInfo } from "@models/UserInfo";
 import { getLocaleInformation } from "@services/LocaleInformation";
 import { cn } from "@utils/cn";
-import { getLogoOverride } from "@utils/Configuration";
 
 export type MaxWidth = "lg" | "md" | "sm" | "xl" | "xs" | false;
 
@@ -41,12 +38,6 @@ const LoginLayout = function (props: Props) {
     const { locale, setLocale } = useLanguageContext();
 
     const [localeList, setLocaleList] = useState<Language[]>([]);
-
-    const logo = getLogoOverride() ? (
-        <img src="./static/media/logo.png" alt="Logo" className="mx-auto my-2 w-16" />
-    ) : (
-        <UserSvg className="mx-auto my-2 w-16 fill-icon" />
-    );
 
     const handleChangeLanguage = (locale: string) => {
         setLocale(locale);
@@ -87,26 +78,7 @@ const LoginLayout = function (props: Props) {
             <div id={props.id} className="flex min-h-[90vh] items-center justify-center text-center">
                 <div className={cn("mx-auto w-full px-8", width)}>
                     <div className="flex flex-col items-center">
-                        <div className="w-full">{logo}</div>
-                        {props.title ? (
-                            <div className="w-full">
-                                <TypographyWithTooltip
-                                    variant="h5"
-                                    value={props.title}
-                                    tooltip={props.titleTooltip ?? undefined}
-                                />
-                            </div>
-                        ) : null}
-                        {props.subtitle ? (
-                            <div className="w-full">
-                                <TypographyWithTooltip
-                                    variant="h6"
-                                    value={props.subtitle}
-                                    tooltip={props.subtitleTooltip ?? undefined}
-                                />
-                            </div>
-                        ) : null}
-                        <div className="mt-2 w-full py-2">{props.children}</div>
+                        <div className="w-full py-2">{props.children}</div>
                         <Brand />
                     </div>
                 </div>

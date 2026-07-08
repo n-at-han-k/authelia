@@ -6,10 +6,6 @@ vi.mock("react-i18next", () => ({
     useTranslation: () => ({ t: (key: string) => key }),
 }));
 
-vi.mock("@assets/images/user.svg?react", () => ({
-    default: (props: any) => <svg data-testid="user-svg" {...props} />,
-}));
-
 vi.mock("@components/AppBarLoginPortal", () => ({
     default: (props: any) => (
         <div data-testid="app-bar" data-locale={props.localeCurrent}>
@@ -26,10 +22,6 @@ vi.mock("@components/PrivacyPolicyDrawer", () => ({
     default: () => <div data-testid="privacy-policy" />,
 }));
 
-vi.mock("@components/TypographyWithTooltip", () => ({
-    default: (props: any) => <span data-testid={`typography-${props.variant}`}>{props.value}</span>,
-}));
-
 vi.mock("@constants/constants", () => ({
     EncodedName: [81, 88, 86, 48, 97, 71, 86, 115, 97, 87, 69, 61],
 }));
@@ -43,10 +35,6 @@ vi.mock("@services/LocaleInformation", () => ({
     getLocaleInformation: vi.fn().mockResolvedValue({ languages: [{ display: "English", locale: "en" }] }),
 }));
 
-vi.mock("@utils/Configuration", () => ({
-    getLogoOverride: vi.fn(() => false),
-}));
-
 beforeEach(() => {
     mockSetLocale.mockReset();
 });
@@ -55,47 +43,24 @@ afterEach(() => {
     vi.restoreAllMocks();
 });
 
-it("renders with default SVG logo", async () => {
+it("renders the app bar, brand, and privacy policy without a logo header", async () => {
     await act(async () => {
         render(<LoginLayout />);
     });
 
-    expect(screen.getByTestId("user-svg")).toBeInTheDocument();
     expect(screen.getByTestId("app-bar")).toBeInTheDocument();
     expect(screen.getByTestId("brand")).toBeInTheDocument();
     expect(screen.getByTestId("privacy-policy")).toBeInTheDocument();
-});
-
-it("renders with image logo when override is enabled", async () => {
-    const { getLogoOverride } = await import("@utils/Configuration");
-    vi.mocked(getLogoOverride).mockReturnValue(true);
-
-    await act(async () => {
-        render(<LoginLayout />);
-    });
-
-    expect(screen.getByAltText("Logo")).toBeInTheDocument();
     expect(screen.queryByTestId("user-svg")).not.toBeInTheDocument();
-
-    vi.mocked(getLogoOverride).mockReturnValue(false);
 });
 
-it("renders title and subtitle when provided", async () => {
+it("does not render a title or subtitle header", async () => {
     await act(async () => {
         render(<LoginLayout title="Test Title" subtitle="Test Subtitle" />);
     });
 
-    expect(screen.getByTestId("typography-h5")).toHaveTextContent("Test Title");
-    expect(screen.getByTestId("typography-h6")).toHaveTextContent("Test Subtitle");
-});
-
-it("does not render title or subtitle when not provided", async () => {
-    await act(async () => {
-        render(<LoginLayout />);
-    });
-
-    expect(screen.queryByTestId("typography-h5")).not.toBeInTheDocument();
-    expect(screen.queryByTestId("typography-h6")).not.toBeInTheDocument();
+    expect(screen.queryByText("Test Title")).not.toBeInTheDocument();
+    expect(screen.queryByText("Test Subtitle")).not.toBeInTheDocument();
 });
 
 it("renders children", async () => {

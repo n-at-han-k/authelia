@@ -239,6 +239,12 @@ const FirstFactorForm = function (props: Props) {
             <Card className="overflow-hidden text-left">
                 <CardContent className="p-6 md:p-8">
                     <FieldGroup id="form-login">
+                        <div className="flex flex-col items-center gap-1 text-center">
+                            <h1 className="text-2xl font-bold">{translate("Welcome back")}</h1>
+                            <p className="text-balance text-sm text-muted-foreground">
+                                {translate("Sign in to your account")}
+                            </p>
+                        </div>
                         <Field>
                             <FieldLabel htmlFor="username-textfield">{translate("Username")}</FieldLabel>
                             <Input
