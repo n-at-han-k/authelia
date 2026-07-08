@@ -221,7 +221,7 @@ const LoginPortal = function (props: Props) {
                     ) : null
                 }
             />
-            <Route path={AuthenticatedRoute} element={userInfo ? <AuthenticatedView userInfo={userInfo} /> : null} />
+            <Route path={AuthenticatedRoute} element={state ? <AuthenticatedView state={state} /> : null} />
         </Routes>
     );
 };

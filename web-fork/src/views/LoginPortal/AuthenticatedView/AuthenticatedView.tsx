@@ -1,22 +1,25 @@
 import { useEffect } from "react";
 
 import { useRedirector } from "@hooks/Redirector";
-import { UserInfo } from "@models/UserInfo";
+import { AutheliaState } from "@services/State";
 import LoadingPage from "@views/LoadingPage/LoadingPage";
 
-const PostLoginRedirectURL = "https://kremlin.email";
-
 export interface Props {
-    userInfo: UserInfo;
+    state: AutheliaState;
 }
 
-const AuthenticatedView = function (_props: Props) {
+const AuthenticatedView = function (props: Props) {
     const redirect = useRedirector();
 
-    // Once authenticated with no onward redirect target, send the user to the actual app.
+    // Send the user to Authelia's configured default redirection URL
+    // (session.cookies[].default_redirection_url), surfaced on the state.
+    const target = props.state.default_redirection_url;
+
     useEffect(() => {
-        redirect(PostLoginRedirectURL);
-    }, [redirect]);
+        if (target) {
+            redirect(target);
+        }
+    }, [redirect, target]);
 
     return <LoadingPage />;
 };
