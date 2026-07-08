@@ -8,8 +8,9 @@ import LogoutButton from "@components/LogoutButton";
 import SwitchUserButton from "@components/SwitchUserButton";
 import { Alert, AlertDescription, AlertTitle } from "@components/ui/alert";
 import { Button } from "@components/ui/button";
+import { Card, CardContent } from "@components/ui/card";
+import { Field, FieldGroup, FieldLabel, FieldSeparator } from "@components/ui/field";
 import { Input } from "@components/ui/input";
-import { Label } from "@components/ui/label";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@components/ui/tooltip";
 import { ConsentCompletionSubRoute, ConsentRoute, IndexRoute } from "@constants/Routes";
 import { Decision, Flow, SubFlow, SubFlowNameDeviceAuthorization } from "@constants/SearchParams";
@@ -290,189 +291,173 @@ const DecisionFormView: FC<Props> = (props: Props) => {
                     id={"openid-consent-decision-stage"}
                     title={`${translate("Hi", { ns: "portal" })} ${props.userInfo.display_name}`}
                     subtitle={translate("Consent Request")}
+                    maxWidth="sm"
                 >
-                    <div className="flex flex-col items-center justify-center">
-                        <div className="w-full pb-4">
-                            <LogoutButton /> {" | "} <SwitchUserButton />
-                        </div>
-                        <div className="w-full">
-                            <div className="flex flex-wrap items-center justify-center">
-                                <div className="w-full">
-                                    <div>
+                    <Card className="overflow-hidden text-left">
+                        <CardContent className="p-6 md:p-8">
+                            <FieldGroup>
+                                <div className="flex flex-col items-center gap-2 text-center">
+                                    <Tooltip>
+                                        <TooltipTrigger asChild>
+                                            <h1 className="text-xl font-bold">
+                                                {response.client_description === ""
+                                                    ? response?.client_id
+                                                    : response.client_description}
+                                            </h1>
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                            {translate("Client ID", { client_id: response?.client_id }) ||
+                                                "Client ID: " + response?.client_id}
+                                        </TooltipContent>
+                                    </Tooltip>
+                                    <p className="text-balance text-sm text-muted-foreground">
+                                        {translate("The above application is requesting the following permissions")}
+                                    </p>
+                                </div>
+
+                                <div className="rounded-lg border px-2 py-1">
+                                    <DecisionFormScopes scopes={response.scopes} />
+                                    <DecisionFormClaims
+                                        claims={claims}
+                                        essential_claims={response.essential_claims}
+                                        onChangeChecked={(claims) => setClaims(claims)}
+                                    />
+                                </div>
+
+                                {response?.require_login ? (
+                                    <Field id={"openid-consent-prompt-login"}>
                                         <Tooltip>
                                             <TooltipTrigger asChild>
-                                                <p className="font-semibold">
-                                                    {response.client_description === ""
-                                                        ? response?.client_id
-                                                        : response.client_description}
-                                                </p>
+                                                <FieldLabel htmlFor={"password-textfield"}>
+                                                    <span>{translate("Password", { ns: "portal" })}</span>
+                                                    <span> *</span>
+                                                </FieldLabel>
                                             </TooltipTrigger>
                                             <TooltipContent>
-                                                {translate("Client ID", { client_id: response?.client_id }) ||
-                                                    "Client ID: " + response?.client_id}
+                                                {translate("You must reauthenticate to be able to give consent")}
                                             </TooltipContent>
                                         </Tooltip>
-                                    </div>
-                                </div>
-                                <div className="w-full">
-                                    <div>
-                                        {translate("The above application is requesting the following permissions")}:
-                                    </div>
-                                </div>
-                                <DecisionFormScopes scopes={response.scopes} />
-                                <DecisionFormClaims
-                                    claims={claims}
-                                    essential_claims={response.essential_claims}
-                                    onChangeChecked={(claims) => setClaims(claims)}
-                                />
-                                {response?.require_login ? (
-                                    <div className="my-4 w-full" id={"openid-consent-prompt-login"}>
-                                        <div className="flex flex-wrap gap-4">
-                                            <div className="w-full">
-                                                <Tooltip>
-                                                    <TooltipTrigger asChild>
-                                                        <div>
-                                                            <Label htmlFor={"password-textfield"} className="mb-2">
-                                                                <span>{translate("Password", { ns: "portal" })}</span>
-                                                                <span> *</span>
-                                                            </Label>
-                                                            <div className="relative">
-                                                                <Input
-                                                                    id={"password-textfield"}
-                                                                    ref={passwordRef}
-                                                                    className="w-full pr-10"
-                                                                    onKeyDown={handlePasswordKeyDown}
-                                                                    onKeyUp={handlePasswordKeyUp}
-                                                                    aria-invalid={errorPassword}
-                                                                    disabled={loading}
-                                                                    value={password}
-                                                                    onChange={(v) => setPassword(v.target.value)}
-                                                                    onFocus={() => setErrorPassword(false)}
-                                                                    type={showPassword ? "text" : "password"}
-                                                                    autoComplete={"current-password"}
-                                                                    required
-                                                                />
-                                                                <button
-                                                                    type="button"
-                                                                    aria-label="toggle password visibility"
-                                                                    className="absolute top-1/2 right-2 -translate-y-1/2 text-muted-foreground"
-                                                                    onMouseDown={() => setShowPassword(true)}
-                                                                    onMouseUp={() => setShowPassword(false)}
-                                                                    onMouseLeave={() => setShowPassword(false)}
-                                                                    onTouchStart={() => setShowPassword(true)}
-                                                                    onTouchEnd={() => setShowPassword(false)}
-                                                                    onTouchCancel={() => setShowPassword(false)}
-                                                                    onKeyDown={(e) => {
-                                                                        if (e.key === " ") {
-                                                                            setShowPassword(true);
-                                                                            e.preventDefault();
-                                                                        }
-                                                                    }}
-                                                                    onKeyUp={(e) => {
-                                                                        if (e.key === " ") {
-                                                                            setShowPassword(false);
-                                                                            e.preventDefault();
-                                                                        }
-                                                                    }}
-                                                                >
-                                                                    {showPassword ? (
-                                                                        <Eye className="size-5" />
-                                                                    ) : (
-                                                                        <EyeOff className="size-5" />
-                                                                    )}
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </TooltipTrigger>
-                                                    <TooltipContent>
-                                                        {translate(
-                                                            "You must reauthenticate to be able to give consent",
-                                                        )}
-                                                    </TooltipContent>
-                                                </Tooltip>
-                                            </div>
-                                            {hasCapsLock ? (
-                                                <div className="mx-4 w-full">
-                                                    <Alert>
-                                                        <AlertTitle>
-                                                            {translate("Warning", { ns: "portal" })}
-                                                        </AlertTitle>
-                                                        <AlertDescription>
-                                                            {isCapsLockPartial
-                                                                ? translate(
-                                                                      "The password was partially entered with Caps Lock",
-                                                                      { ns: "portal" },
-                                                                  )
-                                                                : translate("The password was entered with Caps Lock", {
-                                                                      ns: "portal",
-                                                                  })}
-                                                        </AlertDescription>
-                                                    </Alert>
-                                                </div>
-                                            ) : null}
+                                        <div className="relative">
+                                            <Input
+                                                id={"password-textfield"}
+                                                ref={passwordRef}
+                                                className="w-full pr-10"
+                                                onKeyDown={handlePasswordKeyDown}
+                                                onKeyUp={handlePasswordKeyUp}
+                                                aria-invalid={errorPassword}
+                                                disabled={loading}
+                                                value={password}
+                                                onChange={(v) => setPassword(v.target.value)}
+                                                onFocus={() => setErrorPassword(false)}
+                                                type={showPassword ? "text" : "password"}
+                                                autoComplete={"current-password"}
+                                                required
+                                            />
+                                            <button
+                                                type="button"
+                                                aria-label="toggle password visibility"
+                                                className="absolute top-1/2 right-2 -translate-y-1/2 text-muted-foreground"
+                                                onMouseDown={() => setShowPassword(true)}
+                                                onMouseUp={() => setShowPassword(false)}
+                                                onMouseLeave={() => setShowPassword(false)}
+                                                onTouchStart={() => setShowPassword(true)}
+                                                onTouchEnd={() => setShowPassword(false)}
+                                                onTouchCancel={() => setShowPassword(false)}
+                                                onKeyDown={(e) => {
+                                                    if (e.key === " ") {
+                                                        setShowPassword(true);
+                                                        e.preventDefault();
+                                                    }
+                                                }}
+                                                onKeyUp={(e) => {
+                                                    if (e.key === " ") {
+                                                        setShowPassword(false);
+                                                        e.preventDefault();
+                                                    }
+                                                }}
+                                            >
+                                                {showPassword ? (
+                                                    <Eye className="size-5" />
+                                                ) : (
+                                                    <EyeOff className="size-5" />
+                                                )}
+                                            </button>
                                         </div>
-                                    </div>
+                                        {hasCapsLock ? (
+                                            <Alert>
+                                                <AlertTitle>{translate("Warning", { ns: "portal" })}</AlertTitle>
+                                                <AlertDescription>
+                                                    {isCapsLockPartial
+                                                        ? translate(
+                                                              "The password was partially entered with Caps Lock",
+                                                              { ns: "portal" },
+                                                          )
+                                                        : translate("The password was entered with Caps Lock", {
+                                                              ns: "portal",
+                                                          })}
+                                                </AlertDescription>
+                                            </Alert>
+                                        ) : null}
+                                    </Field>
                                 ) : null}
+
                                 <OpenIDConnectConsentDecisionFormPreConfiguration
                                     pre_configuration={response.pre_configuration}
                                     onChangePreConfiguration={handlePreConfigureChanged}
                                 />
-                                <div className="w-full">
-                                    <div className="flex flex-wrap gap-2">
-                                        <div className="flex-1">
-                                            <Tooltip>
-                                                <TooltipTrigger asChild>
-                                                    <span className="block">
-                                                        <Button
-                                                            id={"openid-consent-accept"}
-                                                            className="w-full"
-                                                            disabled={!response || passwordMissing || loading}
-                                                            onClick={handleAcceptConsent}
-                                                        >
-                                                            {translate("Accept", { ns: "portal" })}
-                                                            {loadingAccept ? (
-                                                                <LoaderCircle className="size-5 animate-spin" />
-                                                            ) : null}
-                                                        </Button>
-                                                    </span>
-                                                </TooltipTrigger>
-                                                <TooltipContent>
-                                                    {passwordMissing
-                                                        ? translate(
-                                                              "You must reauthenticate to be able to give consent",
-                                                          )
-                                                        : translate("Accept this consent request")}
-                                                </TooltipContent>
-                                            </Tooltip>
-                                        </div>
-                                        <div className="flex-1">
-                                            <Tooltip>
-                                                <TooltipTrigger asChild>
-                                                    <span className="block">
-                                                        <Button
-                                                            id={"openid-consent-deny"}
-                                                            variant={"secondary"}
-                                                            className="w-full"
-                                                            disabled={!response || loading}
-                                                            onClick={handleRejectConsent}
-                                                        >
-                                                            {translate("Deny", { ns: "portal" })}
-                                                            {loadingReject ? (
-                                                                <LoaderCircle className="size-5 animate-spin" />
-                                                            ) : null}
-                                                        </Button>
-                                                    </span>
-                                                </TooltipTrigger>
-                                                <TooltipContent>
-                                                    {translate("Deny this consent request")}
-                                                </TooltipContent>
-                                            </Tooltip>
-                                        </div>
-                                    </div>
+
+                                <Field orientation="horizontal" className="grid grid-cols-2 gap-3">
+                                    <Tooltip>
+                                        <TooltipTrigger asChild>
+                                            <span className="block">
+                                                <Button
+                                                    id={"openid-consent-accept"}
+                                                    className="w-full"
+                                                    disabled={!response || passwordMissing || loading}
+                                                    onClick={handleAcceptConsent}
+                                                >
+                                                    {translate("Accept", { ns: "portal" })}
+                                                    {loadingAccept ? (
+                                                        <LoaderCircle className="size-5 animate-spin" />
+                                                    ) : null}
+                                                </Button>
+                                            </span>
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                            {passwordMissing
+                                                ? translate("You must reauthenticate to be able to give consent")
+                                                : translate("Accept this consent request")}
+                                        </TooltipContent>
+                                    </Tooltip>
+                                    <Tooltip>
+                                        <TooltipTrigger asChild>
+                                            <span className="block">
+                                                <Button
+                                                    id={"openid-consent-deny"}
+                                                    variant={"secondary"}
+                                                    className="w-full"
+                                                    disabled={!response || loading}
+                                                    onClick={handleRejectConsent}
+                                                >
+                                                    {translate("Deny", { ns: "portal" })}
+                                                    {loadingReject ? (
+                                                        <LoaderCircle className="size-5 animate-spin" />
+                                                    ) : null}
+                                                </Button>
+                                            </span>
+                                        </TooltipTrigger>
+                                        <TooltipContent>{translate("Deny this consent request")}</TooltipContent>
+                                    </Tooltip>
+                                </Field>
+
+                                <FieldSeparator />
+
+                                <div className="flex items-center justify-center gap-3 text-sm text-muted-foreground">
+                                    <LogoutButton /> <SwitchUserButton />
                                 </div>
-                            </div>
-                        </div>
-                    </div>
+                            </FieldGroup>
+                        </CardContent>
+                    </Card>
                 </LoginLayout>
             ) : (
                 <div>

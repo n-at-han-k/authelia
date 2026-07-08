@@ -15,6 +15,7 @@ export interface Props {
     children?: ReactNode;
     title?: null | string;
     userInfo?: UserInfo;
+    wide?: boolean;
 }
 
 const MinimalLayout = function (props: Props) {
@@ -34,7 +35,7 @@ const MinimalLayout = function (props: Props) {
         <div>
             <AppBarLoginPortal userInfo={props.userInfo} />
             <div id={props.id} className="flex min-h-[90vh] items-center justify-center text-center">
-                <div className="mx-auto w-full max-w-[444px] px-8">
+                <div className={props.wide ? "mx-auto w-full max-w-5xl px-8" : "mx-auto w-full max-w-[444px] px-8"}>
                     <div className="flex flex-col items-center">
                         <div className="w-full">{logo}</div>
                         {props.title ? (
