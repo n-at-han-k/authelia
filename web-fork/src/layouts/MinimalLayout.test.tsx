@@ -54,6 +54,14 @@ it("renders with image logo when override is enabled", async () => {
     vi.mocked(getLogoOverride).mockReturnValue(false);
 });
 
+it("does not render the logo when hideLogo is set", async () => {
+    await act(async () => {
+        render(<MinimalLayout hideLogo />);
+    });
+
+    expect(screen.queryByTestId("user-svg")).not.toBeInTheDocument();
+});
+
 it("renders title when provided", async () => {
     await act(async () => {
         render(<MinimalLayout title="Test Title" />);

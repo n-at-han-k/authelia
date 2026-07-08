@@ -2,25 +2,15 @@ import { render, screen } from "@testing-library/react";
 
 import Brand from "@components/Brand";
 
-vi.mock("@constants/constants", () => ({
-    EncodedName: Array.from("Authelia".split("").map((c) => c.charCodeAt(0))),
-    EncodedURL: Array.from("https://www.authelia.com".split("").map((c) => c.charCodeAt(0))),
-}));
-
-vi.stubGlobal(
-    "atob",
-    vi.fn((str) => str),
-);
-
 it("renders without crashing", () => {
+    document.body.dataset.privacypolicyurl = "";
     render(<Brand />);
 });
 
-it("renders link with correct text", () => {
+it("does not render a Powered by Authelia link", () => {
+    document.body.dataset.privacypolicyurl = "https://example.com";
     render(<Brand />);
-    const link = screen.getByRole("link");
-    expect(link).toHaveAttribute("href", "https://www.authelia.com");
-    expect(link).toHaveTextContent("Powered by Authelia");
+    expect(screen.queryByText(/Powered by/i)).not.toBeInTheDocument();
 });
 
 it("renders privacy policy when enabled", () => {

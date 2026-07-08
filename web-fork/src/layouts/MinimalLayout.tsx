@@ -16,6 +16,7 @@ export interface Props {
     title?: null | string;
     userInfo?: UserInfo;
     wide?: boolean;
+    hideLogo?: boolean;
 }
 
 const MinimalLayout = function (props: Props) {
@@ -37,7 +38,7 @@ const MinimalLayout = function (props: Props) {
             <div id={props.id} className="flex min-h-[90vh] items-center justify-center text-center">
                 <div className={props.wide ? "mx-auto w-full max-w-5xl px-8" : "mx-auto w-full max-w-[444px] px-8"}>
                     <div className="flex flex-col items-center">
-                        <div className="w-full">{logo}</div>
+                        {props.hideLogo ? null : <div className="w-full">{logo}</div>}
                         {props.title ? (
                             <div className="w-full">
                                 <TypographyWithTooltip variant="h5" value={props.title} />

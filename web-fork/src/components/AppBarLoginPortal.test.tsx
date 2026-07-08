@@ -14,6 +14,10 @@ vi.mock("@components/AppBarItemAccountSettings", () => ({
     default: vi.fn(() => <div>Account</div>),
 }));
 
+vi.mock("@components/ThemeToggle", () => ({
+    ThemeToggle: () => <div>Theme</div>,
+}));
+
 const mockUserInfo = {
     display_name: "john",
     emails: ["john@example.com"],

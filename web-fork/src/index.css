@@ -8,55 +8,57 @@
 /* The four Authelia themes, mapped from src/themes/{Light,Dark,Grey,Oled}.ts (MUI palettes).
    `data-theme` is set on <html> by ThemeContext (auto resolves to light/dark). :root == light so
    there is a sane fallback before the attribute is applied. */
+/* cnstudio theme (ported from ~/infra/kremlin/ns/ai/kremlin) — warm amber primary, sharp corners.
+   Mapped onto Authelia's light/dark theme bridge. */
 :root,
 [data-theme="light"] {
-    --radius: 0.5rem;
-    --background: #ffffff;
-    --foreground: rgba(0, 0, 0, 0.87);
-    --card: #ffffff;
-    --card-foreground: rgba(0, 0, 0, 0.87);
-    --popover: #ffffff;
-    --popover-foreground: rgba(0, 0, 0, 0.87);
-    --primary: #1976d2;
-    --primary-foreground: #ffffff;
-    --secondary: #f50057;
-    --secondary-foreground: #ffffff;
-    --muted: #f5f5f5;
-    --muted-foreground: rgba(0, 0, 0, 0.54);
-    --accent: #eeeeee;
-    --accent-foreground: rgba(0, 0, 0, 0.87);
-    --destructive: #f44336;
-    --destructive-foreground: #ffffff;
-    --border: rgba(0, 0, 0, 0.12);
-    --input: rgba(0, 0, 0, 0.12);
-    --ring: #1976d2;
+    --radius: 0rem;
+    --background: oklch(0.985 0 0);
+    --foreground: oklch(0.205 0 0);
+    --card: oklch(0.97 0 0);
+    --card-foreground: oklch(0.205 0 0);
+    --popover: oklch(0.97 0 0);
+    --popover-foreground: oklch(0.205 0 0);
+    --primary: oklch(0.666 0.179 58.318);
+    --primary-foreground: oklch(0.985 0.001 106.423);
+    --secondary: oklch(0.985 0.001 106.423);
+    --secondary-foreground: oklch(0.268 0.007 34.298);
+    --muted: oklch(0.923 0.003 48.717);
+    --muted-foreground: oklch(0.216 0.006 56.043);
+    --accent: oklch(0.985 0.001 106.423);
+    --accent-foreground: oklch(0.374 0.01 67.558);
+    --destructive: oklch(0.577 0.245 27.325);
+    --destructive-foreground: oklch(0.985 0.001 106.423);
+    --border: oklch(0.869 0.005 56.366);
+    --input: oklch(0.709 0.01 56.259);
+    --ring: oklch(0.666 0.179 58.318);
     /* Authelia custom tokens (MUI theme.custom) */
-    --icon: #000000;
-    --loading-bar: #000000;
+    --icon: oklch(0.205 0 0);
+    --loading-bar: oklch(0.666 0.179 58.318);
 }
 
 [data-theme="dark"] {
-    --background: #303030;
-    --foreground: #ffffff;
-    --card: #424242;
-    --card-foreground: #ffffff;
-    --popover: #424242;
-    --popover-foreground: #ffffff;
-    --primary: #1976d2;
-    --primary-foreground: #ffffff;
-    --secondary: #f50057;
-    --secondary-foreground: #ffffff;
-    --muted: #424242;
-    --muted-foreground: rgba(255, 255, 255, 0.7);
-    --accent: #616161;
-    --accent-foreground: #ffffff;
-    --destructive: #f44336;
-    --destructive-foreground: #ffffff;
-    --border: rgba(255, 255, 255, 0.12);
-    --input: rgba(255, 255, 255, 0.12);
-    --ring: #1976d2;
-    --icon: #ffffff;
-    --loading-bar: #ffffff;
+    --background: oklch(0.145 0 0);
+    --foreground: oklch(0.97 0 0);
+    --card: oklch(0.205 0 0);
+    --card-foreground: oklch(0.97 0.001 106.424);
+    --popover: oklch(0.205 0 0);
+    --popover-foreground: oklch(0.97 0.001 106.424);
+    --primary: oklch(0.666 0.179 58.318);
+    --primary-foreground: oklch(0.97 0.001 106.424);
+    --secondary: oklch(0.268 0.007 34.298);
+    --secondary-foreground: oklch(0.97 0.001 106.424);
+    --muted: oklch(0.216 0.006 56.043);
+    --muted-foreground: oklch(0.709 0.01 56.259);
+    --accent: oklch(0.374 0.01 67.558);
+    --accent-foreground: oklch(0.97 0.001 106.424);
+    --destructive: oklch(0.505 0.213 27.518);
+    --destructive-foreground: oklch(0.97 0.001 106.424);
+    --border: oklch(0.374 0.01 67.558);
+    --input: oklch(0.268 0.007 34.298);
+    --ring: oklch(0.473 0.137 46.201);
+    --icon: oklch(0.97 0 0);
+    --loading-bar: oklch(0.666 0.179 58.318);
 }
 
 [data-theme="grey"] {
