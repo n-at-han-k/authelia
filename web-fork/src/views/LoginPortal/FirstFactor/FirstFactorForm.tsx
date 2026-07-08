@@ -247,6 +247,7 @@ const FirstFactorForm = function (props: Props) {
                     <CardContent className="grid p-0 md:grid-cols-2">
                         <div className="flex items-center p-6">
                             <FieldGroup id="form-login">
+                                <h1 className="text-center text-xl font-semibold">{translate("Sign in")}</h1>
                                 <Field>
                                     <FieldLabel htmlFor="username-textfield">{translate("Username")}</FieldLabel>
                                     <Input
