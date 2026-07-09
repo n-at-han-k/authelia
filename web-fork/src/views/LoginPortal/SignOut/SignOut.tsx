@@ -61,7 +61,7 @@ const SignOut = function () {
                 }
                 timeoutId = setTimeout(() => {
                     setTimedOut(true);
-                }, 2000);
+                }, 500);
             } catch (err) {
                 if (axios.isCancel(err)) return;
                 console.error(err);
