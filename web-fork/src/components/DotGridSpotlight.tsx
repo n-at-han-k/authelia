@@ -1,4 +1,4 @@
-import { type MouseEvent as ReactMouseEvent, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 import { cn } from "@utils/cn";
 
@@ -121,8 +121,10 @@ export function DotGridSpotlight({
             }
         };
 
-        canvas.addEventListener("mousemove", handleMouseMove);
-        canvas.addEventListener("mouseleave", handleMouseLeave);
+        // Listen on the window so the canvas itself never needs to be a pointer
+        // target (it stays pointer-events-none) and can't intercept anything.
+        window.addEventListener("mousemove", handleMouseMove);
+        document.addEventListener("mouseleave", handleMouseLeave);
 
         const resizeObserver = new ResizeObserver(() => resizeCanvas());
         if (canvas.parentElement) resizeObserver.observe(canvas.parentElement);
@@ -130,8 +132,8 @@ export function DotGridSpotlight({
         resizeCanvas();
 
         return () => {
-            canvas.removeEventListener("mousemove", handleMouseMove);
-            canvas.removeEventListener("mouseleave", handleMouseLeave);
+            window.removeEventListener("mousemove", handleMouseMove);
+            document.removeEventListener("mouseleave", handleMouseLeave);
             resizeObserver.disconnect();
             if (renderFrameId !== null) cancelAnimationFrame(renderFrameId);
         };
@@ -146,31 +148,14 @@ export function DotGridSpotlight({
         activeMinAlpha,
     ]);
 
-    const handleMouseMove = (e: ReactMouseEvent<HTMLCanvasElement>) => {
-        const rect = canvasRef.current?.getBoundingClientRect();
-        if (rect) {
-            mouseRef.current = {
-                isActive: true,
-                x: e.clientX - rect.left,
-                y: e.clientY - rect.top,
-            };
-        }
-    };
-
-    const handleMouseLeave = () => {
-        mouseRef.current.isActive = false;
-    };
-
     return (
         <canvas
             ref={canvasRef}
             data-ready="false"
             className={cn(
-                "pointer-events-auto absolute inset-0 block opacity-0 transition-opacity! duration-500 data-[ready=true]:opacity-100",
+                "pointer-events-none absolute inset-0 block opacity-0 transition-opacity! duration-500 data-[ready=true]:opacity-100",
                 className,
             )}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
         />
     );
 }

@@ -79,7 +79,7 @@ const LoginLayout = function (props: Props) {
 
     return (
         <div>
-            <div className="fixed inset-0 -z-10 overflow-hidden">
+            <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
                 <DotGridSpotlight dotColor={dots.default} activeDotColor={dots.active} />
             </div>
             <AppBarLoginPortal
