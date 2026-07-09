@@ -1,4 +1,4 @@
-import { KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { FormEvent, KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { BroadcastChannel } from "broadcast-channel";
 import { Eye, EyeOff, LoaderCircle } from "lucide-react";
@@ -161,6 +161,14 @@ const FirstFactorForm = function (props: Props) {
         focusPassword,
     ]);
 
+    const handleSubmit = useCallback(
+        (event: FormEvent<HTMLFormElement>) => {
+            event.preventDefault();
+            handleSignIn().catch(console.error);
+        },
+        [handleSignIn],
+    );
+
     const handleResetPasswordClick = () => {
         if (props.resetPassword) {
             if (props.resetPasswordCustomURL) {
@@ -174,6 +182,7 @@ const FirstFactorForm = function (props: Props) {
     const handleUsernameKeyDown = useCallback(
         (event: KeyboardEvent<HTMLInputElement>) => {
             if (event.key === "Enter") {
+                event.preventDefault();
                 if (!username.length) {
                     setUsernameError(true);
                 } else if (username.length && password.length) {
@@ -245,7 +254,7 @@ const FirstFactorForm = function (props: Props) {
             <div className="flex w-full flex-col gap-6 text-left">
                 <Card className="overflow-hidden p-0">
                     <CardContent className="grid p-0 md:grid-cols-2">
-                        <div className="flex items-center p-6">
+                        <form className="flex items-center p-6" onSubmit={handleSubmit}>
                             <FieldGroup id="form-login">
                                 <h1 className="text-center text-xl font-semibold">{translate("Sign in")}</h1>
                                 <Field>
@@ -347,12 +356,7 @@ const FirstFactorForm = function (props: Props) {
                                     </Field>
                                 ) : null}
                                 <Field>
-                                    <Button
-                                        id="sign-in-button"
-                                        className="w-full"
-                                        disabled={disabled}
-                                        onClick={handleSignIn}
-                                    >
+                                    <Button id="sign-in-button" type="submit" className="w-full" disabled={disabled}>
                                         {translate("Sign in")}
                                         {loading ? <LoaderCircle className="size-5 animate-spin" /> : null}
                                     </Button>
@@ -372,7 +376,7 @@ const FirstFactorForm = function (props: Props) {
                                     />
                                 ) : null}
                             </FieldGroup>
-                        </div>
+                        </form>
                         <div className="relative aspect-[3/4] bg-muted">
                             <img src={loginImage} alt="" className="absolute inset-0 h-full w-full object-cover" />
                         </div>
