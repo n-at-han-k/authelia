@@ -243,9 +243,9 @@ const FirstFactorForm = function (props: Props) {
     return (
         <LoginLayout id="first-factor-stage" title={translate("Sign in")} maxWidth="md">
             <div className="flex w-full flex-col gap-6 text-left">
-                <Card className="overflow-hidden p-0 md:h-[36rem] md:max-h-[85vh]">
-                    <CardContent className="grid h-full p-0 md:grid-cols-2">
-                        <div className="flex items-center overflow-y-auto p-6">
+                <Card className="overflow-hidden p-0">
+                    <CardContent className="grid p-0 md:grid-cols-2">
+                        <div className="flex items-center p-6">
                             <FieldGroup id="form-login">
                                 <h1 className="text-center text-xl font-semibold">{translate("Sign in")}</h1>
                                 <Field>
@@ -373,7 +373,7 @@ const FirstFactorForm = function (props: Props) {
                                 ) : null}
                             </FieldGroup>
                         </div>
-                        <div className="relative hidden bg-muted md:block">
+                        <div className="relative aspect-[3/4] bg-muted">
                             <img src={loginImage} alt="" className="absolute inset-0 h-full w-full object-cover" />
                         </div>
                     </CardContent>
